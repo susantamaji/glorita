@@ -1,20 +1,21 @@
 import React from "react";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import { Clock } from "lucide-react";
+import img from "../assets/photos/logo.jpg"
 
 export default function Footer() {
     return (
-        <footer className="bg-[#1a1a1a] text-gray-300 py-10 px-6 md:px-16">
+        <footer className="bg-blue-500 text-gray-800 font-semibold py-10 px-6 md:px-16">
             <div className="grid md:grid-cols-4 gap-10 border-b border-gray-700 pb-8">
                 {/* Logo & Description */}
                 <div>
                     <img
-                        src="/images/logo.png"
+                        src={img}
                         alt="The Royal Skin Aesthetics"
-                        className="w-52 mb-4"
+                        className="w-26 mb-4 rounded-full"
                     />
                     <p className="text-sm leading-relaxed">
-                        At The Royal Aesthetic Clinic, we prioritize your unique beauty
+                        At The Glorita Aesthetic Clinic, we prioritize your unique beauty
                         goals and provide a personalized experience to ensure you feel
                         confident in your skin.
                     </p>
@@ -102,17 +103,17 @@ export default function Footer() {
             </div>
 
             {/* Bottom Line */}
-            <div className="flex flex-col md:flex-row justify-between items-center text-sm mt-6 text-gray-500">
+            <div className="flex flex-col md:flex-row justify-between items-center text-sm mt-6 text-gray-200">
                 <p>
                     Developed and managed by{" "}
                     <a
                         href="#"
                         className="text-yellow-500 hover:text-yellow-400 transition-colors"
                     >
-                        FurturLift
+                        LK TECHNOLOGY
                     </a>
                 </p>
-                <p>Copyright © All rights theroyalskinaesthetics reserved.</p>
+                <p>Copyright © 2025 GLORITA. All rights reserved.</p>
             </div>
         </footer>
     );

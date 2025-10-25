@@ -9,6 +9,7 @@ import Face from './component/Face'
 import BodyCountry from './component/BodyCountry'
 import Breast from './component/Breast'
 import Hire from './component/Hire'
+import Blog from './component/Blog'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path='/bodycountry' element={<BodyCountry/>} />
           <Route path='/breast' element={<Breast/>} />
           <Route path='/hire' element={<Hire/>} />
+          <Route path='/blog' element={<Blog/>} />
 
         </Routes>
       </BrowserRouter>

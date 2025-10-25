@@ -1,140 +1,211 @@
 import React, { useState } from "react";
-import face from "../assets/photos/logo.jpg";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaYoutube,
-  FaMapMarkerAlt,
-  FaBars,
-  FaTimes,
-  FaChevronDown,
-} from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { FaFacebook, FaYoutube, FaInstagram } from "react-icons/fa";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { NavLink, useLocation } from "react-router-dom";
+import { FaWhatsapp } from "react-icons/fa";
+import { FaFacebookMessenger } from "react-icons/fa";
+import img from "../assets/photos/logo.jpg"
 
-const Navbar = () => {
+function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [serviceOpen, setServiceOpen] = useState(false);
+  const [hoverColor, setHoverColor] = useState(false);
+  const location = useLocation();
 
-  // Close menu when clicking a NavLink
-  const handleNavClick = () => setMenuOpen(false);
+  // Reusable underline animation
+  const underlineClass = (isActive) =>
+    `relative px-1 transition-colors duration-300 ${isActive ? "text-white font-bold" : "text-gray-200"
+    } after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-emerald-400 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full`;
 
   return (
-    <header className="w-full fixed top-0 left-0 z-50 bg-white shadow-md">
-      {/* Top Bar */}
-      <div className="text-black flex justify-between items-center px-4 sm:px-6 py-2 text-sm bg-gray-50">
-        <div className="flex items-center gap-2">
-          <FaMapMarkerAlt className="text-teal-600" />
-          <span className="text-gray-700">House No. 17A, Street 31, Islamabad</span>
-        </div>
-        <div className="flex gap-3 text-lg text-gray-600">
-          <a href="#" className="hover:text-teal-600 transition">
-            <FaFacebookF />
-          </a>
-          <a href="#" className="hover:text-teal-600 transition">
-            <FaTwitter />
-          </a>
-          <a href="#" className="hover:text-teal-600 transition">
-            <FaInstagram />
-          </a>
-          <a href="#" className="hover:text-teal-600 transition">
-            <FaYoutube />
-          </a>
-        </div>
-      </div>
-
-      {/* Navbar */}
-      <nav className="bg-[#4fa2a1] text-white px-4 sm:px-10 py-3 flex justify-between items-center relative">
+    <div>
+      {/* Fixed Navbar */}
+      <nav className="fixed top-0 text-white left-0 w-full flex items-center z-50 justify-between px-6 py-4 shadow-md bg-blue-500 backdrop-blur-md bg-opacity-95">
         {/* Logo */}
-        <NavLink to="/" onClick={handleNavClick} className="flex items-center gap-2">
-          <img
-            src={face}
-            alt="Logo"
-            className="h-14 w-14 sm:h-20 sm:w-20 rounded-full object-cover border-2 border-white shadow"
-          />
-          <span className="font-semibold text-lg sm:text-xl">Royal Aesthetics</span>
-        </NavLink>
+        <h1 className="text-2xl font-bold tracking-wide flex items-center gap-4">
+        
+          <img src={img} alt="" className="h-16 rounded-full" />
+          <span className="text-white">Glorita</span>
+        </h1>
 
-        {/* Hamburger Button (Mobile) */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="focus:outline-none hover:text-yellow-300 transition"
-          >
-            {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
-          </button>
-        </div>
-
-        {/* Menu Links */}
-        <ul
-          className={`absolute md:static top-full left-0 w-full md:w-auto bg-[#4fa2a1] md:bg-transparent flex flex-col md:flex-row md:items-center text-base md:gap-8 overflow-hidden transition-all duration-500 ease-in-out ${
-            menuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0 md:max-h-none md:opacity-100"
-          }`}
-        >
-          <NavLink to="/" onClick={handleNavClick}>
-            <li className="px-4 py-3 hover:text-yellow-300 text-center md:text-left cursor-pointer transition">
-              Home
-            </li>
-          </NavLink>
-          <NavLink to="/about" onClick={handleNavClick}>
-            <li className="px-4 py-3 hover:text-yellow-300 text-center md:text-left cursor-pointer transition">
-              About
-            </li>
-          </NavLink>
-
-          {/* Services Dropdown */}
+        {/* Desktop Menu */}
+        <ul className="hidden md:flex items-center gap-6 font-medium text-white">
+          <NavLink to="/" className={({ isActive }) => underlineClass(isActive)}>Home</NavLink>
+          <NavLink to="/about" className={({ isActive }) => underlineClass(isActive)}>About Me</NavLink>
+        
+          {/* Dropdown */}
           <li
-            className="relative group px-4 py-3 text-center md:text-left cursor-pointer select-none z-50"
-            onClick={() => setServiceOpen(!serviceOpen)}
+            className="relative cursor-pointer"
+            onMouseEnter={() => setHoverColor(true)}
+            onMouseLeave={() => setHoverColor(false)}
           >
-            <div className="flex items-center justify-center md:justify-start gap-1 hover:text-yellow-300 transition">
-              Services <FaChevronDown size={12} />
+            <div className="flex items-center gap-1">
+              Pages <ChevronDown size={16} />
             </div>
-
-            {/* Dropdown Menu */}
-            <ul
-              className={`${
-                serviceOpen ? "block" : "hidden md:group-hover:block"
-              } md:absolute md:left-0 md:top-10 bg-[#ffffff] md:rounded-md shadow-lg text-gray-800 md:w-56`}
-            >
-              {[
-                "Face & Neck",
-                "Body Contouring & Skin",
-                "Breasts",
-                "Hair",
-              ].map((item) => (
-                <NavLink key={item} to="#" onClick={handleNavClick}>
-                  <li className="px-4 py-2 hover:bg-yellow-400 hover:text-black transition text-sm md:text-base">
-                    {item}
-                  </li>
-                </NavLink>
-              ))}
-            </ul>
+            {hoverColor && (
+              <div className="absolute top-6 left-0 z-50 bg-slate-800 shadow-lg rounded-md w-44 py-2">
+                <NavLink to="/face" className={({ isActive }) => `block px-4 py-2 hover:bg-slate-700 rounded ${underlineClass(isActive)}`}>Face & Neck</NavLink>
+                <NavLink to="/bodycountry" className={({ isActive }) => `block px-4 py-2 hover:bg-slate-700 rounded ${underlineClass(isActive)}`}>Body Country & Skin</NavLink>
+                <NavLink to="/breast" className={({ isActive }) => `block px-4 py-2 hover:bg-slate-700 rounded ${underlineClass(isActive)}`}>Breast</NavLink>
+                <NavLink to="/hire" className={({ isActive }) => `block px-4 py-2 hover:bg-slate-700 rounded ${underlineClass(isActive)}`}>Hire</NavLink>
+              </div>
+            )}
           </li>
 
-          <NavLink to="/bookanappoitment" onClick={handleNavClick}>
-            <li className="px-4 py-3 hover:text-yellow-300 text-center md:text-left cursor-pointer transition">
-              Book An Appointment
-            </li>
-          </NavLink>
-          <NavLink to="/contact" onClick={handleNavClick}>
-            <li className="px-4 py-3 hover:text-yellow-300 text-center md:text-left cursor-pointer transition">
-              Contact
-            </li>
-          </NavLink>
-
-          {/* Appointment Button */}
-          <NavLink to="/contact" onClick={handleNavClick}>
-            <li className="px-4 py-4 md:py-0 flex justify-center">
-              <button className="bg-gradient-to-r from-indigo-800 to-cyan-400 px-6 py-2 rounded-full hover:opacity-90 transition font-semibold">
-                Make Appointment
-              </button>
-            </li>
-          </NavLink>
+          <NavLink to="/blog" className={({ isActive }) => underlineClass(isActive)}>Blog</NavLink>
+          <NavLink to="/contact" className={({ isActive }) => underlineClass(isActive)}>Contact</NavLink>
+          <NavLink to="/bookanappoitment" className={({ isActive }) => underlineClass(isActive)}>Book & Appoitment</NavLink>
+          
         </ul>
+
+        {/* Social Icons */}
+        <div className="hidden md:flex items-center gap-4 text-[24px]">
+          <a href="https://www.facebook.com/profile.php?id=61556966303789" className="hover:text-blue-500 transition-transform transform hover:scale-125">
+            <FaFacebook />
+          </a>
+          <a href="https://x.com/GemstoneExpert" className="hover:text-gray-400 transition-transform transform hover:scale-125">
+            <FaSquareXTwitter />
+          </a>
+          <a href="https://www.youtube.com/@gemstone_expert" className="hover:text-red-500 transition-transform transform hover:scale-125">
+            <FaYoutube />
+          </a>
+          <a href="https://www.instagram.com/gemstone_expert_sujoy_das/" className="hover:text-pink-500 transition-transform transform hover:scale-125">
+            <FaInstagram />
+          </a>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden text-gray-300 transition-transform duration-300"
+        >
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
       </nav>
-    </header>
+
+      {/* Mobile Menu */}
+     {/* Mobile Menu */}
+<div
+  className={`md:hidden fixed top-16 left-0 h-full w-64 bg-slate-900 text-white shadow-lg transform transition-transform duration-500 ease-in-out z-40 ${
+    menuOpen ? "translate-x-0" : "-translate-x-full"
+  }`}
+>
+  <ul className="p-6 space-y-4 flex flex-col font-bold mt-4">
+    <NavLink
+      to="/"
+      onClick={() => setMenuOpen(false)}
+      className={({ isActive }) => underlineClass(isActive)}
+    >
+      <li>Home</li>
+    </NavLink>
+
+    <NavLink
+      to="/about"
+      onClick={() => setMenuOpen(false)}
+      className={({ isActive }) => underlineClass(isActive)}
+    >
+      <li>About Me</li>
+    </NavLink>
+
+    {/* Pages Dropdown in Mobile */}
+    <li className="relative">
+      <details className="group">
+        <summary className="cursor-pointer flex items-center justify-between text-white py-2">
+          <span>Pages</span>
+          <ChevronDown
+            size={18}
+            className="transition-transform group-open:rotate-180"
+          />
+        </summary>
+        <div className="pl-4 mt-2 space-y-2">
+          <NavLink
+            to="/face"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) => underlineClass(isActive)}
+          >
+            <li>Face & Neck</li>
+          </NavLink>
+          <NavLink
+            to="/bodycountry"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) => underlineClass(isActive)}
+          >
+            <li>Body Country & Skin</li>
+          </NavLink>
+          <NavLink
+            to="/breast"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) => underlineClass(isActive)}
+          >
+            <li>Breast</li>
+          </NavLink>
+          <NavLink
+            to="/hire"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) => underlineClass(isActive)}
+          >
+            <li>Hire</li>
+          </NavLink>
+        </div>
+      </details>
+    </li>
+
+    <NavLink
+      to="/blog"
+      onClick={() => setMenuOpen(false)}
+      className={({ isActive }) => underlineClass(isActive)}
+    >
+      <li>Blog</li>
+    </NavLink>
+
+    <NavLink
+      to="/contact"
+      onClick={() => setMenuOpen(false)}
+      className={({ isActive }) => underlineClass(isActive)}
+    >
+      <li>Contact</li>
+    </NavLink>
+
+    <NavLink
+      to="/bookanappoitment"
+      onClick={() => setMenuOpen(false)}
+      className={({ isActive }) => underlineClass(isActive)}
+    >
+      <li>Book & Appoitment</li>
+    </NavLink>
+  </ul>
+</div>
+
+
+      {/* Social Icons */}
+      <div className="hidden md:flex items-center gap-4 text-[24px]">
+        <a
+          href="https://www.facebook.com/profile.php?id=61556966303789"
+          className=" hover:text-blue-500 transition-transform transform hover:scale-125"
+        >
+          <FaFacebook />
+        </a>
+        <a
+          href="https://x.com/GemstoneExpert"
+          className="hover:text-gray-400 transition-transform transform hover:scale-125"
+        >
+          <FaSquareXTwitter />
+        </a>
+        <a
+          href="https://www.youtube.com/@gemstone_expert"
+          className="hover:text-red-500 transition-transform transform hover:scale-125"
+        >
+          <FaYoutube />
+        </a>
+        <a
+          href="https://www.instagram.com/gemstone_expert_sujoy_das/"
+          className="hover:text-pink-500 transition-transform transform hover:scale-125"
+        >
+          <FaInstagram />
+        </a>
+      </div>
+    </div>
   );
-};
+}
 
 export default Navbar;
